@@ -1,0 +1,8 @@
+C:\Users\User\Documents\schule\Ehealth\EKGVisu\EKGVisu\EKGVisu\bin\Debug\EKGVisu.exe
+C:\Users\User\Documents\schule\Ehealth\EKGVisu\EKGVisu\EKGVisu\bin\Debug\EKGVisu.pdb
+C:\Users\User\Documents\schule\Ehealth\EKGVisu\EKGVisu\EKGVisu\obj\x86\Debug\EKGVisu.Form1.resources
+C:\Users\User\Documents\schule\Ehealth\EKGVisu\EKGVisu\EKGVisu\obj\x86\Debug\EKGVisu.Properties.Resources.resources
+C:\Users\User\Documents\schule\Ehealth\EKGVisu\EKGVisu\EKGVisu\obj\x86\Debug\EKGVisu.csproj.GenerateResource.Cache
+C:\Users\User\Documents\schule\Ehealth\EKGVisu\EKGVisu\EKGVisu\obj\x86\Debug\EKGVisu.exe
+C:\Users\User\Documents\schule\Ehealth\EKGVisu\EKGVisu\EKGVisu\obj\x86\Debug\EKGVisu.pdb
+C:\Users\User\Documents\schule\Ehealth\EKGVisu\EKGVisu\EKGVisu\obj\x86\Debug\EKGVisu.csprojResolveAssemblyReference.cache
