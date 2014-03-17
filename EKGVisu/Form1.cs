@@ -14,12 +14,15 @@ namespace EKGVisu
 {
     public partial class Form1 : Form
     {
+        #region private walues
         private string[] dataFromCSVFile;
         private string[] tresholdData;
         private string[] dataFromTxTFile;
         private string nameRowEKG = "EKG";
         private string nameRowRR = "RR";
         private string nameRowKPeak = "Peak";
+        private string nameRorTacho = "Tachogram";
+        #endregion
 
         //Inicializacni cast pro grafy
         public Form1()
@@ -88,7 +91,9 @@ namespace EKGVisu
             double[] doubleArrayCSV = ConvertToDoubleArray(dataFromCSVFile);
             DrawEKG(doubleArrayCSV, nameRowEKG);
             DrawKFiltredSignal(dataFromTxTFile, doubleArrayCSV, nameRowRR);
-            DrawPeak(doubleArrayCSV, nameRowKPeak);
+            List<int> peaks = NumeratePeaks(doubleArrayCSV, Convert.ToDouble(tresholdData[1]));
+            DrawPeak(peaks, nameRowKPeak);
+            DrawTacho(peaks, nameRorTacho);
         }
 
         /// <summary>
@@ -172,25 +177,28 @@ namespace EKGVisu
             DrawData(convolutedSignalos, nameLine);
         }
 
-        private void DrawPeak(double[] ArrayCSV, string nameLine)
+        private void DrawPeak(List<int> peaks, string nameLine)
         {
             chart1.Series.Add(nameLine);
             chart1.Series[nameLine].ChartType = SeriesChartType.Point;
-            List<int> peaks=NumeratePeaks(ArrayCSV, Convert.ToDouble(tresholdData[1]));
             foreach (int y in peaks)
             {
                 chart1.Series[nameLine].Points.AddXY(y, 300);  
-            }
+            }          
+        }
 
-            chart1.Series.Add("Tachogram");
-            chart1.Series["Tachogram"].ChartType = SeriesChartType.Line;
+        private void DrawTacho(List<int> peaks, string nameLine)
+        {
+
+            chart1.Series.Add(nameLine);
+            chart1.Series[nameLine].ChartType = SeriesChartType.Line;
             List<int> tachogarm = Tachogram(peaks);
             for (int i = 0; i < tachogarm.Count(); i++)
-			{
-                chart1.Series["Tachogram"].Points.AddXY(peaks[i], tachogarm[i]);
-			}
+            {
+                chart1.Series[nameLine].Points.AddXY(peaks[i], tachogarm[i]);
+            }
             
-          
+
         }
 
         /// <summary>
