@@ -30,16 +30,20 @@
         {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.btnReadCSV = new System.Windows.Forms.Button();
             this.btnReadTxT = new System.Windows.Forms.Button();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.Draw = new System.Windows.Forms.Button();
+            this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
             this.SuspendLayout();
             // 
             // btnReadCSV
             // 
-            this.btnReadCSV.Location = new System.Drawing.Point(584, 546);
+            this.btnReadCSV.Location = new System.Drawing.Point(834, 53);
             this.btnReadCSV.Name = "btnReadCSV";
             this.btnReadCSV.Size = new System.Drawing.Size(75, 23);
             this.btnReadCSV.TabIndex = 0;
@@ -49,7 +53,7 @@
             // 
             // btnReadTxT
             // 
-            this.btnReadTxT.Location = new System.Drawing.Point(503, 546);
+            this.btnReadTxT.Location = new System.Drawing.Point(834, 94);
             this.btnReadTxT.Name = "btnReadTxT";
             this.btnReadTxT.Size = new System.Drawing.Size(75, 23);
             this.btnReadTxT.TabIndex = 1;
@@ -63,15 +67,15 @@
             this.chart1.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(20, 22);
+            this.chart1.Location = new System.Drawing.Point(12, 12);
             this.chart1.Name = "chart1";
-            this.chart1.Size = new System.Drawing.Size(1094, 518);
+            this.chart1.Size = new System.Drawing.Size(786, 265);
             this.chart1.TabIndex = 2;
             this.chart1.Text = "chart1";
             // 
             // Draw
             // 
-            this.Draw.Location = new System.Drawing.Point(422, 546);
+            this.Draw.Location = new System.Drawing.Point(834, 142);
             this.Draw.Name = "Draw";
             this.Draw.Size = new System.Drawing.Size(75, 23);
             this.Draw.TabIndex = 3;
@@ -79,11 +83,24 @@
             this.Draw.UseVisualStyleBackColor = true;
             this.Draw.Click += new System.EventHandler(this.Draw_Click);
             // 
+            // chart2
+            // 
+            chartArea2.Name = "ChartArea1";
+            this.chart2.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chart2.Legends.Add(legend2);
+            this.chart2.Location = new System.Drawing.Point(12, 283);
+            this.chart2.Name = "chart2";
+            this.chart2.Size = new System.Drawing.Size(786, 273);
+            this.chart2.TabIndex = 4;
+            this.chart2.Text = "chart2";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(949, 568);
+            this.ClientSize = new System.Drawing.Size(991, 568);
+            this.Controls.Add(this.chart2);
             this.Controls.Add(this.Draw);
             this.Controls.Add(this.chart1);
             this.Controls.Add(this.btnReadTxT);
@@ -91,6 +108,7 @@
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -101,6 +119,7 @@
         private System.Windows.Forms.Button btnReadTxT;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.Button Draw;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
     }
 }
 

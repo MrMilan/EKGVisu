@@ -16,7 +16,8 @@ namespace EKGVisu
     {
         #region private walues
         private string[] dataFromCSVFile;
-        private string[] tresholdData;
+        private double senzitivita;
+        private double vzorkovaciFrekvence;
         private string[] dataFromTxTFile;
         private string nameRowEKG = "EKG";
         private string nameRowRR = "RR";
@@ -37,6 +38,15 @@ namespace EKGVisu
 
             chart1.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
             chart1.ChartAreas[0].CursorY.IsUserSelectionEnabled = true;
+
+            chart2.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
+            chart2.ChartAreas[0].AxisY.ScaleView.Zoomable = true;
+
+            chart2.ChartAreas[0].CursorX.AutoScroll = true;
+            chart2.ChartAreas[0].CursorY.AutoScroll = true;
+
+            chart2.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
+            chart2.ChartAreas[0].CursorY.IsUserSelectionEnabled = true;
         }
 
         ///Tlacitko pro nacteni TxT 
@@ -87,11 +97,13 @@ namespace EKGVisu
             // {
             //     series.Points.Clear();
             // }
+            double treshold = 1.5; // je to v mV
 
             double[] doubleArrayCSV = ConvertToDoubleArray(dataFromCSVFile);
+            double[] filtredSignal = Convolution(ConvertToDoubleArray(dataFromCSVFile), ConvertToDoubleArray(ReplaceSeparator(dataFromTxTFile, ".", ",")));
             DrawEKG(doubleArrayCSV, nameRowEKG);
-            DrawKFiltredSignal(dataFromTxTFile, doubleArrayCSV, nameRowRR);
-            List<int> peaks = NumeratePeaks(doubleArrayCSV, Convert.ToDouble(tresholdData[1]));
+            DrawEKG(filtredSignal, nameRowRR);
+            List<double> peaks = NumeratePeaks(filtredSignal, treshold*senzitivita);
             DrawPeak(peaks, nameRowKPeak);
             DrawTacho(peaks, nameRorTacho);
         }
@@ -103,7 +115,8 @@ namespace EKGVisu
         private void ReadDataFromFileCSV(string route)
         {
             string[] rawDataFromCSVFile = File.ReadAllLines(route);
-            tresholdData = rawDataFromCSVFile[1].Split(',');
+            senzitivita = Convert.ToDouble(rawDataFromCSVFile[1].Split(',')[1]);
+            vzorkovaciFrekvence = Convert.ToDouble(rawDataFromCSVFile[1].Split(',')[0]);
             nameRowEKG += (" from " + rawDataFromCSVFile[0]);
             dataFromCSVFile = rawDataFromCSVFile[2].Split(',');
         }
@@ -161,41 +174,40 @@ namespace EKGVisu
             DrawData(ArrayCSV, nameLine);
         }
 
-        /// <summary>
-        /// Funkce pro vykresleni vyfiltrovaneho signalu
-        /// </summary>
-        /// <param name="inputStringArrayFromTxT">Vstupni pole</param>
-        /// <param name="arrayCSV">Pole double se signalem</param>
-        /// <param name="nameLine">Nazev rady</param>
-        private void DrawKFiltredSignal(string[] inputStringArrayFromTxT, double[] arrayCSV, string nameLine)
-        {
-            string[] replacedArrayTxT = ReplaceSeparator(inputStringArrayFromTxT, ".", ",");
-            double[] arrayTxT = ConvertToDoubleArray(replacedArrayTxT);
-            double[] convolutedSignalos = Convolution(arrayCSV, arrayTxT);
-            chart1.Series.Add(nameLine);
-            chart1.Series[nameLine].ChartType = SeriesChartType.FastLine;
-            DrawData(convolutedSignalos, nameLine);
-        }
+        ///// <summary>
+        ///// Funkce pro vykresleni vyfiltrovaneho signalu
+        ///// </summary>
+        ///// <param name="inputStringArrayFromTxT">Vstupni pole</param>
+        ///// <param name="arrayCSV">Pole double se signalem</param>
+        ///// <param name="nameLine">Nazev rady</param>
+        //private void DrawKFiltredSignal(string[] inputStringArrayFromTxT, double[] arrayCSV, string nameLine)
+        //{
+        //    string[] replacedArrayTxT = ReplaceSeparator(inputStringArrayFromTxT, ".", ",");
+        //    double[] arrayTxT = ConvertToDoubleArray(replacedArrayTxT);
+        //    chart1.Series.Add(nameLine);
+        //    chart1.Series[nameLine].ChartType = SeriesChartType.FastLine;
+        //    DrawData(convolutedSignalos, nameLine);
+        //}
 
-        private void DrawPeak(List<int> peaks, string nameLine)
+        private void DrawPeak(List<double> peaks, string nameLine)
         {
             chart1.Series.Add(nameLine);
             chart1.Series[nameLine].ChartType = SeriesChartType.Point;
             foreach (int y in peaks)
             {
-                chart1.Series[nameLine].Points.AddXY(y, 300);  
+                chart1.Series[nameLine].Points.AddXY(y/vzorkovaciFrekvence, 10);  
             }          
         }
 
-        private void DrawTacho(List<int> peaks, string nameLine)
+        private void DrawTacho(List<double> peaks, string nameLine)
         {
 
-            chart1.Series.Add(nameLine);
-            chart1.Series[nameLine].ChartType = SeriesChartType.Line;
-            List<int> tachogarm = Tachogram(peaks);
+            chart2.Series.Add(nameLine);
+            chart2.Series[nameLine].ChartType = SeriesChartType.Line;
+            List<double> tachogarm = Tachogram(peaks);
             for (int i = 0; i < tachogarm.Count(); i++)
             {
-                chart1.Series[nameLine].Points.AddXY(peaks[i], tachogarm[i]);
+                chart2.Series[nameLine].Points.AddXY(peaks[i]/vzorkovaciFrekvence, tachogarm[i]/vzorkovaciFrekvence*1000);
             }
             
 
@@ -210,7 +222,7 @@ namespace EKGVisu
         {
             for (int i = 0; i < inputDataArray.Length - 1; i++)
             {
-                chart1.Series[nameLine].Points.AddXY(i, inputDataArray[i]);
+                chart1.Series[nameLine].Points.AddXY(i / vzorkovaciFrekvence, inputDataArray[i] / senzitivita);
             }
         }
 
@@ -280,9 +292,9 @@ namespace EKGVisu
             return finalConvolutedSignal;
         }
 
-        public List<int> NumeratePeaks(double[] inputSignalDataArray, double threshold)
+        public List<double> NumeratePeaks(double[] inputSignalDataArray, double threshold)
         {
-            List<int> spice = new List<int>();
+            List<double> spice = new List<double>();
             for (int i = 1; i < inputSignalDataArray.Length - 1; i++)
             {
                 if (inputSignalDataArray[i] > threshold)
@@ -296,10 +308,9 @@ namespace EKGVisu
             return spice;
         }
 
-        private static List<int> Tachogram(List<int> peaks)
+        private static List<double> Tachogram(List<double> peaks)
         {
-            List<int> tachogram = new List<int>();
-
+            List<double> tachogram = new List<double>();
             for (int i = 0; i < peaks.Count()-1; i++)
             {
                 tachogram.Add(peaks[i+1] - peaks[i]);
