@@ -23,6 +23,7 @@ namespace EKGVisu
         private string nameRowRR = "RR";
         private string nameRowKPeak = "Peak";
         private string nameRorTacho = "Tachogram";
+        private const int prevodZVterin = 1000;//prevadim na ms
         #endregion
 
         //Inicializacni cast pro grafy
@@ -30,24 +31,26 @@ namespace EKGVisu
         {
             // inicializace grafu
             InitializeComponent();
-            chart1.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
-            chart1.ChartAreas[0].AxisY.ScaleView.Zoomable = true;
+            EKGGraph.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
+            EKGGraph.ChartAreas[0].AxisY.ScaleView.Zoomable = true;
 
-            chart1.ChartAreas[0].CursorX.AutoScroll = true;
-            chart1.ChartAreas[0].CursorY.AutoScroll = true;
+            EKGGraph.ChartAreas[0].CursorX.AutoScroll = true;
+            EKGGraph.ChartAreas[0].CursorY.AutoScroll = true;
 
-            chart1.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
-            chart1.ChartAreas[0].CursorY.IsUserSelectionEnabled = true;
+            EKGGraph.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
+            EKGGraph.ChartAreas[0].CursorY.IsUserSelectionEnabled = true;
 
-            chart2.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
-            chart2.ChartAreas[0].AxisY.ScaleView.Zoomable = true;
+            tachoGraph.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
+            tachoGraph.ChartAreas[0].AxisY.ScaleView.Zoomable = true;
 
-            chart2.ChartAreas[0].CursorX.AutoScroll = true;
-            chart2.ChartAreas[0].CursorY.AutoScroll = true;
+            tachoGraph.ChartAreas[0].CursorX.AutoScroll = true;
+            tachoGraph.ChartAreas[0].CursorY.AutoScroll = true;
 
-            chart2.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
-            chart2.ChartAreas[0].CursorY.IsUserSelectionEnabled = true;
+            tachoGraph.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
+            tachoGraph.ChartAreas[0].CursorY.IsUserSelectionEnabled = true;
         }
+
+        #region Tlacitka
 
         ///Tlacitko pro nacteni TxT 
         private void btnReadTxT_Click(object sender, EventArgs e)
@@ -103,11 +106,14 @@ namespace EKGVisu
             double[] filtredSignal = Convolution(ConvertToDoubleArray(dataFromCSVFile), ConvertToDoubleArray(ReplaceSeparator(dataFromTxTFile, ".", ",")));
             DrawEKG(doubleArrayCSV, nameRowEKG);
             DrawEKG(filtredSignal, nameRowRR);
-            List<double> peaks = NumeratePeaks(filtredSignal, treshold*senzitivita);
+            List<double> peaks = NumeratePeaks(filtredSignal, treshold * senzitivita);
             DrawPeak(peaks, nameRowKPeak);
             DrawTacho(peaks, nameRorTacho);
         }
 
+        #endregion
+        
+        #region Nacitani Dat
         /// <summary>
         /// Funkce pro nacitani dat ze souboru s koncovkou csv
         /// </summary>
@@ -129,7 +135,10 @@ namespace EKGVisu
         {
             dataFromTxTFile = System.IO.File.ReadAllLines(route);
         }
+        #endregion
 
+        #region Interni funkce na prevod
+        
         /// <summary>
         /// Pretypovani dat ze stringoveho pole na double pole 
         /// </summary>
@@ -162,59 +171,57 @@ namespace EKGVisu
             return newArrayWithNewSeparator;
         }
 
+        #endregion
+
+        #region Kreslici fce
+        
         /// <summary>
         /// Vykresli EKG data
         /// </summary>
-        /// <param name="ArrayCSV">Vstupni pole double s EKG Daty</param>
+        /// <param name="arrayCSV">Vstupni pole double s EKG Daty</param>
         /// <param name="nameLine">Nazev rady</param>
-        private void DrawEKG(double[] ArrayCSV, string nameLine)
+        private void DrawEKG(double[] arrayCSV, string nameLine)
         {
-            chart1.Series.Add(nameLine);
-            chart1.Series[nameLine].ChartType = SeriesChartType.FastLine;
-            DrawData(ArrayCSV, nameLine);
+            EKGGraph.Series.Add(nameLine);
+            EKGGraph.Series[nameLine].ChartType = SeriesChartType.FastLine;
+            DrawData(arrayCSV, nameLine);
         }
 
-        ///// <summary>
-        ///// Funkce pro vykresleni vyfiltrovaneho signalu
-        ///// </summary>
-        ///// <param name="inputStringArrayFromTxT">Vstupni pole</param>
-        ///// <param name="arrayCSV">Pole double se signalem</param>
-        ///// <param name="nameLine">Nazev rady</param>
-        //private void DrawKFiltredSignal(string[] inputStringArrayFromTxT, double[] arrayCSV, string nameLine)
-        //{
-        //    string[] replacedArrayTxT = ReplaceSeparator(inputStringArrayFromTxT, ".", ",");
-        //    double[] arrayTxT = ConvertToDoubleArray(replacedArrayTxT);
-        //    chart1.Series.Add(nameLine);
-        //    chart1.Series[nameLine].ChartType = SeriesChartType.FastLine;
-        //    DrawData(convolutedSignalos, nameLine);
-        //}
-
+        /// <summary>
+        /// Vykresli Peaky data
+        /// </summary>
+        /// <param name="peaks">Vstupni pole list s Peaky (respektive s jejich x pozici y je stabilni) </param>
+        /// <param name="nameLine">Nazev rady</param>
         private void DrawPeak(List<double> peaks, string nameLine)
         {
-            chart1.Series.Add(nameLine);
-            chart1.Series[nameLine].ChartType = SeriesChartType.Point;
+            EKGGraph.Series.Add(nameLine);
+            EKGGraph.Series[nameLine].ChartType = SeriesChartType.Point;
             foreach (int y in peaks)
             {
-                chart1.Series[nameLine].Points.AddXY(y/vzorkovaciFrekvence, 10);  
-            }          
+                EKGGraph.Series[nameLine].Points.AddXY(y / vzorkovaciFrekvence, 10);
+            }
         }
 
+        /// <summary>
+        /// Vykresleni Tachogramu tez by zaslouzila vycistit
+        /// </summary>
+        /// <param name="peaks">Beru list peaku diky kterym vim kde x-ovou pozici a muzu z ni zpocitat tachogram (y-novou hodnoty)</param>
+        /// <param name="nameLine">Beru jak nazvu radu melo by byt odlisne od ostatnich</param>
         private void DrawTacho(List<double> peaks, string nameLine)
         {
 
-            chart2.Series.Add(nameLine);
-            chart2.Series[nameLine].ChartType = SeriesChartType.Line;
+            tachoGraph.Series.Add(nameLine);
+            tachoGraph.Series[nameLine].ChartType = SeriesChartType.Line;
             List<double> tachogarm = Tachogram(peaks);
             for (int i = 0; i < tachogarm.Count(); i++)
             {
-                chart2.Series[nameLine].Points.AddXY(peaks[i]/vzorkovaciFrekvence, tachogarm[i]/vzorkovaciFrekvence*1000);
+                tachoGraph.Series[nameLine].Points.AddXY(peaks[i] / vzorkovaciFrekvence, tachogarm[i] / vzorkovaciFrekvence * 1000);
             }
-            
 
         }
 
         /// <summary>
-        /// Funkce pro vykresleni dat
+        /// Funkce pro vykresleni dat, zaslouzila by otimalizovat na to ce nacte i Chart a bude univerzalni pro vykresleni jakekoliv rady 
         /// </summary>
         /// <param name="inputDataArray">Nacita vstupni double pole</param>
         /// <param name="nameLine">Nazev rady</param>
@@ -222,15 +229,24 @@ namespace EKGVisu
         {
             for (int i = 0; i < inputDataArray.Length - 1; i++)
             {
-                chart1.Series[nameLine].Points.AddXY(i / vzorkovaciFrekvence, inputDataArray[i] / senzitivita);
+                EKGGraph.Series[nameLine].Points.AddXY(i / vzorkovaciFrekvence, inputDataArray[i] / senzitivita);
             }
         }
-
+        #endregion   
+      
+        #region Podruzne vypocty
+        
+        /// <summary>
+        /// Konvoluce zalozena na scriptu (kodu) poskytnuta Ing. Michal Huptych, Ph.D. na vytvorena v Java. MrMilan editoval pro Csharp
+        /// </summary>
+        /// <param name="inputSignalDataArray">Vstupni data ktera maji byt filtrovana</param>
+        /// <param name="filterData">Fitracni maska</param>
+        /// <returns>Vraci pole double s vyfiltrovanym signalem</returns>
         private static double[] Convolution(double[] inputSignalDataArray, double[] filterData)
         {
             double[] convolutedSignal = new double[inputSignalDataArray.Length + filterData.Length - 1];
 
-        #region convoluce
+            #region convoluce
             if (inputSignalDataArray.Length >= filterData.Length)
             {
                 for (int k = 0; k < inputSignalDataArray.Length + filterData.Length - 1; k++)
@@ -278,21 +294,27 @@ namespace EKGVisu
                     convolutedSignal[k] = pom;
                 }
             }
-#endregion
+            #endregion
 
             int pomItera = 0;
-            double [] finalConvolutedSignal = new double[inputSignalDataArray.Length];
-            for (int i = (int)(filterData.Length/2); i < inputSignalDataArray.Length; i++)
+            double[] finalConvolutedSignal = new double[inputSignalDataArray.Length];
+            for (int i = (int)(filterData.Length / 2); i < inputSignalDataArray.Length; i++)
             {
-                 finalConvolutedSignal[pomItera]  =  convolutedSignal[i];
-                 pomItera++;
+                finalConvolutedSignal[pomItera] = convolutedSignal[i];
+                pomItera++;
             }
 
 
             return finalConvolutedSignal;
         }
 
-        public List<double> NumeratePeaks(double[] inputSignalDataArray, double threshold)
+        /// <summary>
+        /// Funkce ktera vyhodnocuje podle hodnoty threshold za je dana hodnota peak nebo ne
+        /// </summary>
+        /// <param name="inputSignalDataArray">Pole doublu ve kterem hledam peaky</param>
+        /// <param name="threshold">Hodnota pro kterou beru ze signal prekonal dostatecnou mez</param>
+        /// <returns>Vraci list double s pozici (indexem) kde se peak nachcazi</returns>
+        private List<double> NumeratePeaks(double[] inputSignalDataArray, double threshold)
         {
             List<double> spice = new List<double>();
             for (int i = 1; i < inputSignalDataArray.Length - 1; i++)
@@ -308,16 +330,21 @@ namespace EKGVisu
             return spice;
         }
 
+        /// <summary>
+        /// Funkce ktera pocita tachogram (jednoducha diference mezi peaky)
+        /// </summary>
+        /// <param name="peaks">List peaku na kterymi chci projit tachogram</param>
+        /// <returns>Vracim List hodnot(double) tachogramu, pozice urcim z pole peaku</returns>
         private static List<double> Tachogram(List<double> peaks)
         {
             List<double> tachogram = new List<double>();
-            for (int i = 0; i < peaks.Count()-1; i++)
+            for (int i = 0; i < peaks.Count() - 1; i++)
             {
-                tachogram.Add(peaks[i+1] - peaks[i]);
+                tachogram.Add(peaks[i + 1] - peaks[i]);
             }
             return tachogram;
         }
-
+        #endregion
 
     }
 }

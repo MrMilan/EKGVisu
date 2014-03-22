@@ -34,11 +34,11 @@
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.btnReadCSV = new System.Windows.Forms.Button();
             this.btnReadTxT = new System.Windows.Forms.Button();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.EKGGraph = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.Draw = new System.Windows.Forms.Button();
-            this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
+            this.tachoGraph = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            ((System.ComponentModel.ISupportInitialize)(this.EKGGraph)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tachoGraph)).BeginInit();
             this.SuspendLayout();
             // 
             // btnReadCSV
@@ -61,17 +61,17 @@
             this.btnReadTxT.UseVisualStyleBackColor = true;
             this.btnReadTxT.Click += new System.EventHandler(this.btnReadTxT_Click);
             // 
-            // chart1
+            // EKGGraph
             // 
             chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
+            this.EKGGraph.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(12, 12);
-            this.chart1.Name = "chart1";
-            this.chart1.Size = new System.Drawing.Size(786, 265);
-            this.chart1.TabIndex = 2;
-            this.chart1.Text = "chart1";
+            this.EKGGraph.Legends.Add(legend1);
+            this.EKGGraph.Location = new System.Drawing.Point(12, 12);
+            this.EKGGraph.Name = "EKGGraph";
+            this.EKGGraph.Size = new System.Drawing.Size(786, 265);
+            this.EKGGraph.TabIndex = 2;
+            this.EKGGraph.Text = "EKGGraph";
             // 
             // Draw
             // 
@@ -83,32 +83,32 @@
             this.Draw.UseVisualStyleBackColor = true;
             this.Draw.Click += new System.EventHandler(this.Draw_Click);
             // 
-            // chart2
+            // tachoGraph
             // 
             chartArea2.Name = "ChartArea1";
-            this.chart2.ChartAreas.Add(chartArea2);
+            this.tachoGraph.ChartAreas.Add(chartArea2);
             legend2.Name = "Legend1";
-            this.chart2.Legends.Add(legend2);
-            this.chart2.Location = new System.Drawing.Point(12, 283);
-            this.chart2.Name = "chart2";
-            this.chart2.Size = new System.Drawing.Size(786, 273);
-            this.chart2.TabIndex = 4;
-            this.chart2.Text = "chart2";
+            this.tachoGraph.Legends.Add(legend2);
+            this.tachoGraph.Location = new System.Drawing.Point(12, 283);
+            this.tachoGraph.Name = "tachoGraph";
+            this.tachoGraph.Size = new System.Drawing.Size(786, 273);
+            this.tachoGraph.TabIndex = 4;
+            this.tachoGraph.Text = "tachoGraph";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(991, 568);
-            this.Controls.Add(this.chart2);
+            this.Controls.Add(this.tachoGraph);
             this.Controls.Add(this.Draw);
-            this.Controls.Add(this.chart1);
+            this.Controls.Add(this.EKGGraph);
             this.Controls.Add(this.btnReadTxT);
             this.Controls.Add(this.btnReadCSV);
             this.Name = "Form1";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.EKGGraph)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tachoGraph)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -117,9 +117,9 @@
 
         private System.Windows.Forms.Button btnReadCSV;
         private System.Windows.Forms.Button btnReadTxT;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart EKGGraph;
         private System.Windows.Forms.Button Draw;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
+        private System.Windows.Forms.DataVisualization.Charting.Chart tachoGraph;
     }
 }
 

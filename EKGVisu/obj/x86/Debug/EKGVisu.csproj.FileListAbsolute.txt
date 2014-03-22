@@ -6,3 +6,12 @@ C:\Users\User\Documents\schule\Ehealth\EKGVisu\EKGVisu\EKGVisu\obj\x86\Debug\EKG
 C:\Users\User\Documents\schule\Ehealth\EKGVisu\EKGVisu\EKGVisu\obj\x86\Debug\EKGVisu.exe
 C:\Users\User\Documents\schule\Ehealth\EKGVisu\EKGVisu\EKGVisu\obj\x86\Debug\EKGVisu.pdb
 C:\Users\User\Documents\schule\Ehealth\EKGVisu\EKGVisu\EKGVisu\obj\x86\Debug\EKGVisu.csprojResolveAssemblyReference.cache
+C:\Documents and Settings\Milan\Dokumenty\škola\FBMI\3rocnik\17bieth\Programs\EKGVisu\EKGVisu\obj\x86\Debug\EKGVisu.exe
+C:\Documents and Settings\Milan\Dokumenty\škola\FBMI\3rocnik\17bieth\Programs\EKGVisu\EKGVisu\obj\x86\Debug\EKGVisu.pdb
+C:\Documents and Settings\Milan\Dokumenty\škola\FBMI\3rocnik\17bieth\Programs\EKGVisu\EKGVisu\bin\Debug\EKGVisu.exe
+C:\Documents and Settings\Milan\Dokumenty\škola\FBMI\3rocnik\17bieth\Programs\EKGVisu\EKGVisu\bin\Debug\EKGVisu.pdb
+C:\Documents and Settings\Milan\Dokumenty\škola\FBMI\3rocnik\17bieth\Programs\EKGVisu\EKGVisu\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Milan\Dokumenty\škola\FBMI\3rocnik\17bieth\Programs\EKGVisu\EKGVisu\obj\x86\Debug\EKGVisu.Form1.resources
+C:\Documents and Settings\Milan\Dokumenty\škola\FBMI\3rocnik\17bieth\Programs\EKGVisu\EKGVisu\obj\x86\Debug\EKGVisu.Properties.Resources.resources
+C:\Documents and Settings\Milan\Dokumenty\škola\FBMI\3rocnik\17bieth\Programs\EKGVisu\EKGVisu\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Documents and Settings\Milan\Dokumenty\škola\FBMI\3rocnik\17bieth\Programs\EKGVisu\EKGVisu\obj\x86\Debug\GenerateResource.write.1.tlog
